@@ -1,5 +1,6 @@
 streamlit
 pandas
-Pillow
 matplotlib
-openpyxl
+Pillow
+llama-ocr
+
