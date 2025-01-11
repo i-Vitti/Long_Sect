@@ -1,0 +1,15 @@
+{
+  "name": "pipeline_profile_app",
+  "version": "1.0.0",
+  "main": "llama_ocr.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "llama-ocr": "^0.0.6"
+  }
+}
