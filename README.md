@@ -15,3 +15,5 @@ Instructions to Create requirements.txt:
   Save the above content into a file named requirements.txt.
   Run the following command to install all dependencies:
     pip install -r requirements.txt
+
+pipelineprofileapp.streamlit.app
