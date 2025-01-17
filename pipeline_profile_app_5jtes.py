@@ -1,8 +1,8 @@
 import streamlit as st
 import pandas as pd
 from PIL import Image, ImageEnhance
+import pytesseract
 import matplotlib.pyplot as plt
-import subprocess
 import io
 import base64
 import re
@@ -28,25 +28,15 @@ def preprocess_image(image):
     return enhanced_image
 
 
-def extract_text_with_llamaocr(image):
+def extract_text_with_tesseract(image):
     """
-    Use LlamaOCR (via Node.js script) to extract text from the image.
+    Use Tesseract OCR to extract text from the image.
     """
-    # Save preprocessed image to a temporary file
-    temp_image_path = "temp_image.png"
-    image.save(temp_image_path, format="PNG")
-
-    # Run the Node.js script with subprocess
     try:
-        result = subprocess.run(
-            ["node", "llama_ocr.js", temp_image_path],
-            capture_output=True,
-            text=True,
-            check=True
-        )
-        return result.stdout
-    except subprocess.CalledProcessError as e:
-        st.error("Error running LlamaOCR: " + str(e))
+        ocr_text = pytesseract.image_to_string(image)
+        return ocr_text
+    except Exception as e:
+        st.error("Error running Tesseract OCR: " + str(e))
         return ""
 
 
@@ -119,11 +109,11 @@ with tabs[1]:
         for uploaded_file in uploaded_files:
             image = Image.open(uploaded_file)
             st.image(image, caption="Uploaded Image", use_container_width=True)
-            st.write("Processing image with LlamaOCR...")
+            st.write("Processing image with Tesseract OCR...")
             
             # Perform OCR on the image
             preprocessed_image = preprocess_image(image)
-            ocr_text = extract_text_with_llamaocr(preprocessed_image)
+            ocr_text = extract_text_with_tesseract(preprocessed_image)
             st.write("Raw OCR Text Output:")
             st.text(ocr_text)
             
@@ -213,3 +203,4 @@ with tabs[5]:
     3. **Visualize**: View the pipeline profile as a graph in the Visualization tab.
     4. **Export**: Download the consolidated data table and graph in the Export tab.
     """)
+
